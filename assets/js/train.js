@@ -88,23 +88,33 @@ $(document).ready(function () {
     $("#submit").on("click", function () {
 
         var train_num = $('#output tr').length + 1;
-
         var name = $("#name_input").val().trim(); //train name
         var dest = $("#dest_input").val().trim(); //Destination
         var time = $("#time_input").val().trim(); //first train time
         var freq = $("#freq_input").val().trim(); //freq
 
-        time = moment(time, "HH:mm"); //format time to use moment.js    
+        time = moment(time, "hh:mm"); //format time to use moment.js    
 
         var times = [time]; //init train stop times, push first stop
         var current_time = moment();
 
-        for (i = freq; i < 1440 /*mins in day*/ ; i += freq) { //populate array of times of train stops
-            time = moment(time, "HH:mm").add(i, 'm');
+        console.log(
+            "train_num: " + train_num + " | " + 
+            "train_name: " + name + " | " + 
+            "train_dest: " + dest + " | " + 
+            "train_first_stop_time: " + time + " | " + 
+            "train_freq: " + freq + " | " + 
+            "train_times_array: " + times + " | " + 
+            "current_time: " + current_time 
+        );
+
+        for (i = freq; i < 1440 /*mins in day*/ ; i = i + freq) { //populate array of times of train stops
+            time = moment(time, "hh:mm").add(i, 'mm');
             times.push(time);
+            console.log("i: " + i);
         };
 
-        console.log(times);
+        //console.log(times);
 
         var time_diff = 0; //init
 
@@ -122,7 +132,7 @@ $(document).ready(function () {
         //html
         var pre = "train_" + train_num;
 
-        $("#input").append(build_html("tr", {
+        $("#output").append(build_html("tr", {
                 id: pre
             },
             build_html("th", {

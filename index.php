@@ -40,15 +40,13 @@
 						</tr>
 					</thead>
 					<tbody id="output">
-                        <tr>
-                            <!--
-                            <th>Train Name</th>
-                            <th>Destination</th>
-                            <th>Frequency</th>
-                            <th>Next Arrival</th>
-                            <th>Minutes Away</th>
-                            -->
-                        </tr>
+                        <!--
+                        <th>Train Name</th>
+                        <th>Destination</th>
+                        <th>Frequency</th>
+                        <th>Next Arrival</th>
+                        <th>Minutes Away</th>
+                        -->
 					</tbody>
 				</table>
 			</div>
