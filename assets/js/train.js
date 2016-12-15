@@ -99,7 +99,7 @@ $(document).ready(function () {
         var times = [time]; //init train stop times, push first stop
         var current_time = moment();
 
-        for (i = freq; i < 1440 /*mins in day*/ ; i + freq) { //populate array of times of train stops
+        for (i = freq; i < 1440 /*mins in day*/ ; i += freq) { //populate array of times of train stops
             time = moment(time, "HH:mm").add(i, 'm');
             times.push(time);
         };
