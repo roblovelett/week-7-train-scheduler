@@ -85,6 +85,11 @@ $(document).ready(function () {
 
     })(); //run once
 
+    $("header").append(moment().format("hh:mm"));
+
+
+
+
     $("#submit").on("click", function () {
 
         var train_num = $('#output tr').length + 1;
@@ -107,25 +112,37 @@ $(document).ready(function () {
             "train_times_array: " + times + " | " + 
             "current_time: " + current_time 
         );
-
+        var time_diff = 0; //init
+        
         for (i = 0; i < 1440 /*mins in day*/ ; i += freq) { //populate array of times of train stops
-            time = moment(time).add(freq, 'm'); 
-            times.push(time);
+            time = moment(time).add(freq, 'm');
+            time_diff = parseInt(moment.duration(times.diff(current_time)/*current_time.diff(times[i])*/).asMinutes());
+            if (time_diff >= 0) {
+                var time_next_arrival = times[i];
+                break;
+            };
+            //times.push(time);
         };
         
+        /*
         var time_diff = 0; //init
 
         for (i = 0; i < times.length; i++) {
 
-            time_diff = parseInt(moment.duration(current_time.diff(times[i])).asMinutes());
-            time_diff = -time_diff > 0 ? -time_diff : time_diff; //make time difference positive
-
-            if (time_diff <= freq) {
+            time_diff = parseInt(moment.duration(times[i].diff(current_time)/*current_time.diff(times[i])*///).asMinutes());
+            //time_diff = -time_diff > 0 ? -time_diff : time_diff; //make time difference positive
+            /*console.log(time_diff);
+            
+            if (time_diff >= 0) {
                 var time_next_arrival = times[i];
                 break;
             };
-        };
-
+            /*if (time_diff <= freq) {
+                var time_next_arrival = times[i];
+                break;
+            };*/
+        /*};
+*/
         //html
         var pre = "train_" + train_num;
 
@@ -160,6 +177,92 @@ $(document).ready(function () {
 
     });
 
+
+
+
+
+/*    $("#submit").on("click", function () {
+        
+        var train_num = $('#output tr').length + 1;
+        var name = $("#name_input").val().trim(); //train name
+        var dest = $("#dest_input").val().trim(); //Destination
+        var time = $("#time_input").val().trim(); //first train time
+        var freq = parseInt($("#freq_input").val().trim()); //freq
+
+        time = moment(time, "hh:mm"); //format time to use moment.js    
+
+        var times = [time]; //init train stop times, push first stop
+        var current_time = moment();
+
+        console.log(
+            "train_num: " + train_num + " | " + 
+            "train_name: " + name + " | " + 
+            "train_dest: " + dest + " | " + 
+            "train_first_stop_time: " + times + " | " + 
+            "train_freq: " + freq + " | " + 
+            "train_times_array: " + times + " | " + 
+            "current_time: " + current_time 
+        );
+
+
+
+        for (i = 0; i < 1440 /*mins in day*//* ; i += freq) { //populate array of times of train stops
+            time = moment(time).add(freq, 'm'); 
+            times.push(time);
+            // if (time.diff)
+            console.log(times[i].diff(current_time));
+            if (times[i].diff(current_time) > 0) {
+                var time_next_arrival = times[i];
+                break;
+            };
+};*/
+        
+        /*
+        for (i = 0; i < times.length; i++) {
+
+            time_diff = parseInt(moment.duration(times[i].diff(current_time)/*current_time.diff(times[i])*///).asMinutes());
+            //time_diff = -time_diff > 0 ? -time_diff : time_diff; //make time difference positive
+            /*
+            if (time_diff > 0 && time_diff <= freq) {
+                var time_next_arrival = times[i];
+                break;
+            };
+};*/
+
+        //html
+        /*var pre = "train_" + train_num;
+
+        $("#output").append(build_html("tr", {
+                id: pre
+            },
+            build_html("th", {
+                class: pre,
+                id: pre + "_name"
+            }, name) +
+            build_html("th", {
+                class: pre,
+                id: pre + "_dest"
+            }, dest) +
+            build_html("th", {
+                class: pre,
+                id: pre + "_freq"
+            }, freq) +
+            build_html("th", {
+                class: pre,
+                id: pre + "_arrival"
+            }, moment(time_next_arrival).format("hh:mm")) +
+            build_html("th", {
+                class: pre,
+                id: pre + "_mins"
+            }, time_diff)
+        ));
+
+        $("form").trigger("reset"); //clear fields
+
+        return false; // Return "false"to allow "enter"
+
+    });
+*/
     //helper functions
     function build_html(tag, attrs, inner_html) { //helper function to build html tags
         var h = '<' + tag; //opening tag       
