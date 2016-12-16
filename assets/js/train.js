@@ -49,7 +49,9 @@ $(document).ready(function () {
         $("#input_form").append(build_html("button", {
             id: "submit",
             class: "btn btn-primary",
-            name: "submit"
+            name: "submit",
+            onclick: "return false",
+            type: "button"
         }, txt.eng.input.btn));
 
         function output_titles(txt01, txt02, txt03, txt04, txt05) {
@@ -100,28 +102,28 @@ $(document).ready(function () {
 
         time = moment(time, "hh:mm"); //format time to use moment.js    
 
-        var times = [time]; //init train stop times, push first stop
-        var current_time = moment();
+        //var times = [time]; //init train stop times, push first stop
+        //var current_time = moment();
 
         console.log(
             "train_num: " + train_num + " | " + 
             "train_name: " + name + " | " + 
             "train_dest: " + dest + " | " + 
-            "train_first_stop_time: " + times + " | " + 
+            "train_first_stop_time: " + time +  
             "train_freq: " + freq + " | " + 
-            "train_times_array: " + times + " | " + 
-            "current_time: " + current_time 
+            //"train_times_array: " + time + " | " + 
+            "current_time: " + moment() //+ current_time 
         );
+        
         var time_diff = 0; //init
         
         for (i = 0; i < 1440 /*mins in day*/ ; i += freq) { //populate array of times of train stops
             time = moment(time).add(freq, 'm');
-            time_diff = parseInt(moment.duration(times.diff(current_time)/*current_time.diff(times[i])*/).asMinutes());
+            time_diff = parseInt(moment.duration(time.diff(moment()/*current_time*/)).asMinutes());
             if (time_diff >= 0) {
-                var time_next_arrival = times[i];
+                var time_next_arrival = time;
                 break;
             };
-            //times.push(time);
         };
         
         /*
